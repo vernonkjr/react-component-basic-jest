@@ -78,5 +78,42 @@ describe('App', () => {
         ).toBe(true);
       });
     });
+
+    describe('and then submits the form', () => {
+      beforeEach(() => {
+        const form = wrapper.find('form').first();
+        form.simulate('submit', {
+          preventDefault: () => {},
+        });
+      });
+
+      it('should add the item to state', () => {
+        expect(
+          wrapper.state().items
+        ).toContain(item);
+      });
+
+      it('should render the item in the table', () => {
+        expect(
+          wrapper.containsMatchingElement(
+            <td>{item}</td>
+          )
+        ).toBe(true);
+      });
+
+      it('should clear the input field', () => {
+        const input = wrapper.find('input').first();
+        expect(
+          input.props().value
+        ).toEqual('');
+      });
+
+      it('should disable `button`', () => {
+        const button = wrapper.find('button').first();
+        expect(
+          button.props().disabled
+        ).toBe(true);
+      });
+    });
   });
 });
